@@ -1,0 +1,10 @@
+# 自定义配置默认配置 最好在其他项目中覆盖而不是在这里改
+quanta:
+  web:
+    resource-handlers:
+      - handler-paths:
+          - /static/**
+        resource-locations:
+          - file':'/static
+  system:
+    debug: false

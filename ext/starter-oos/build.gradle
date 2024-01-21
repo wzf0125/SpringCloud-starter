@@ -1,0 +1,6 @@
+dependencies {
+    implementation "com.qcloud:cos_api"
+    implementation "com.aliyun.oss:aliyun-sdk-oss"
+
+    api project(":core:starter-base")
+}

@@ -1,0 +1,4 @@
+dependencies {
+    api project(":system-api:user-api")
+    api project(":core:starter-redis")
+}

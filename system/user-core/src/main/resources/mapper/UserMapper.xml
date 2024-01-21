@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.quanta.user.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="org.quanta.user.entity.User">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="salt" column="salt" jdbcType="VARCHAR"/>
+        <result property="is_deleted" column="is_deleted" jdbcType="TINYINT"/>
+        <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,username,email,
+        password,salt,is_deleted,
+        create_time,update_time
+    </sql>
+    <select id="findUserByEmail" resultMap="UserDetailsVOResultMap">
+        SELECT *
+        FROM user AS u
+                 LEFT JOIN user_info AS ui ON u.id = ui.uid
+        WHERE u.email = #{email}
+          AND u.is_deleted = 0
+    </select>
+    <select id="findUserByAccount" resultMap="UserDetailsVOResultMap">
+        SELECT *
+        FROM user AS u
+                 LEFT JOIN user_info AS ui ON u.id = ui.uid
+        WHERE u.account = #{account}
+          AND u.is_deleted = 0
+    </select>
+
+    <resultMap id="UserDetailsVOResultMap" type="org.quanta.user.vo.UserDetailsVO">
+        <id property="id" column="id"/>
+        <association property="user" javaType="org.quanta.user.entity.User">
+            <result property="email" column="email"/>
+            <result property="account" column="account"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+            <result property="salt" column="salt"/>
+        </association>
+        <association property="userInfo" javaType="org.quanta.user.entity.UserInfo">
+            <result property="avatar" column="avatar"/>
+            <result property="gender" column="gender"/>
+        </association>
+    </resultMap>
+</mapper>

@@ -1,0 +1,10 @@
+server:
+  port: 8100
+knife4j:
+  enableAggregation: true
+  cloud:
+    enable: true
+    routes:
+      - name: user
+        # 模块swagger文档地址
+        location: http://localhost/app-system-user/v3/api-docs?group=quanta

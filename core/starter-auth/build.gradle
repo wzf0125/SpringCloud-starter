@@ -1,0 +1,5 @@
+dependencies {
+    api project(":core:starter-base")
+    api project(":core:starter-jwt")
+    api project(":core:starter-tool")
+}

@@ -1,0 +1,39 @@
+server:
+  port: 8002
+quanta:
+  system:
+    debug: true
+    host: http://localhost:8002
+  jwt:
+    # jwt有状态开关
+    isJwtStateful: true
+    # 多用户登录开关
+    allowMultipleLogin: false
+  web: # web配置 资源映射
+    resource-handlers:
+      - handler-paths:
+          - /doc.html
+        resource-locations:
+          - classpath:/META-INF/resources/
+      - handler-paths:
+          - /webjars/**
+        resource-locations:
+          - classpath:/META-INF/resources/webjars/
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://xxx.xxx.xxx:3306/user?&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: xxx
+    password: xxx
+  redis:
+    host: xxx.xxx.xxx.xxx
+    port: 6379
+    database: 0
+    password: xxx

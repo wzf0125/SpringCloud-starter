@@ -1,0 +1,5 @@
+dependencies {
+    api project(":common")
+    api project(":ext:starter-swagger")
+    api project(":core:starter-mybatis")
+}

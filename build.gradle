@@ -1,0 +1,143 @@
+ext {
+    // 所有项目模块
+    allProjectList = Arrays.asList(
+            project(":core"),
+            project(":ext"),
+            project(":auth"),
+            project(":system"),
+            project(":system-api"),
+            project(":common"),
+            project("gateway")
+    ).toSet()
+    allProjectList.addAll(project(":core").subprojects)
+    allProjectList.addAll(project(":ext").subprojects)
+    allProjectList.addAll(project(":auth").subprojects)
+    allProjectList.addAll(project(":system").subprojects)
+    allProjectList.addAll(project(":system-api").subprojects)
+
+    // 空父工程
+    pomProjectList = Arrays.asList(
+            project(":core"),
+            project(":ext"),
+            project(":auth"),
+            project(":system"),
+            project(":system-api")
+    )
+
+    // 需要打包的模块
+    packageProjcetList = Arrays.asList(
+            project(":gateway"),
+            project(":system:user-core"),
+            project(":auth:auth-core")
+    )
+}
+
+// 构建配置
+buildscript {
+    repositories {
+        maven {
+            allowInsecureProtocol = true
+            url MAVEN_REPO
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:' + VERSION_SPRINGBOOT
+        classpath 'io.spring.gradle:dependency-management-plugin:' + VERSION_SPRING_PLUGIN
+        classpath 'io.freefair.gradle:lombok-plugin:' + VERSION_LOMBOK_PLUGIN
+    }
+
+}
+
+// 所有项目配置
+allprojects {
+    //gradle插件
+    apply from: "${rootDir}/spring.gradle"
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'io.freefair.lombok'
+
+    group = "org.quanta"
+    version = PROJECT_VERSION
+
+    repositories {
+        //maven仓库
+        mavenLocal()
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        mavenCentral()
+    }
+    // 统一依赖版本管理
+    dependencyManagement {
+        // springboot 版本管理
+        imports {
+            mavenBom 'org.springframework.boot:spring-boot-dependencies:' + VERSION_SPRINGBOOT
+            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:' + VERSION_SPRINGCLOUD
+            mavenBom 'com.alibaba.cloud:spring-cloud-alibaba-dependencies:' + VERSION_SPRINGCLOUD_ALIBABA
+        }
+
+        // 其他依赖版本管理
+        dependencies {
+            // hutool工具包
+            dependency 'cn.hutool:hutool-all:5.8.5'
+            // redisson
+            dependency 'org.redisson:redisson:3.21.1'
+            // lombok
+            dependency 'org.projectlombok:lombok:1.18.28'
+            // mybatis-plus
+            dependency 'com.baomidou:mybatis-plus-boot-starter:3.5.3.2'
+            // mysql jdbc
+            dependency 'mysql:mysql-connector-java:8.0.33'
+
+            // swagger + knife4j
+            dependency 'io.springfox:springfox-boot-starter:3.0.0'
+            dependency 'io.springfox:springfox-swagger-ui:3.0.0'
+            dependency 'com.github.xiaoymin:knife4j-spring-boot-starter:3.0.3'
+            dependency 'com.github.xiaoymin:knife4j-aggregation-spring-boot-starter:2.0.9'
+
+            // 腾讯云对象存储COS
+            dependency 'com.qcloud:cos_api:5.6.66'
+
+            // 阿里云对象存储OSS
+            dependency 'com.aliyun.oss:aliyun-sdk-oss:2.8.3'
+
+            // nacos
+            dependency 'com.alibaba.nacos:nacos-client:2.3.0'
+
+            // jwt
+            dependency 'io.jsonwebtoken:jjwt-api:0.11.2'
+            dependency 'io.jsonwebtoken:jjwt-impl:0.11.2'
+            dependency 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+            // 修复security模型 java>8出现的库缺失问题
+            dependency 'javax.xml.bind:jaxb-api:2.3.0'
+            dependency 'com.sun.xml.bind:jaxb-impl:2.3.0'
+            dependency 'com.sun.xml.bind:jaxb-core:2.3.0'
+            dependency 'javax.activation:activation:1.1.1'
+        }
+    }
+}
+
+// 仅对有代码编写的模块引入构建插件
+configure(allProjectList - pomProjectList) { project ->
+    apply plugin: 'java-library'
+
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+    // 所有项目共用依赖
+    dependencies {
+        api 'org.projectlombok:lombok'
+    }
+}
+
+// 对需要打包成jar包的项目引入构建依赖
+configure(packageProjcetList) {
+    apply plugin: 'org.springframework.boot'
+}
+
+// 设置gradle编码
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+}

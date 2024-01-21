@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: app-gateway
+  cloud:
+    nacos:
+      # nacos注册中心配置
+      server-addr: xxx.xxx.xxx:8848 # 注册中心地址(注意9848(nacos端口号+1000)端口也需要开放 )
+      username: nacos # 账号
+      password: nacos # 密码
+      discovery:
+        namespace: 3bb01079-490a-4014-a5c7-5fbf51cab92a
+      # 配置中心配置 核心文件配置
+      config:
+        server-addr: xxx.xxx.xxx:8848
+        namespace: 3bb01079-490a-4014-a5c7-5fbf51cab92a
+        username: nacos # 账号
+        password: nacos # 密码
+        refresh-enabled: true
+        prefix: application
+        file-extension: yaml
+        extension-configs:
+          - data-id: gateway-dev.yaml # 模块专属配置
+            group: gateway
+            refresh: true

@@ -1,0 +1,5 @@
+quanta:
+  system:
+    debug: true
+  log:
+    level: 1

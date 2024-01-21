@@ -1,0 +1,54 @@
+server:
+  port: 80
+  # 日志配置 线上记得关掉
+  error:
+    include-message: always
+    include-stacktrace: always
+
+spring:
+  main:
+    web-application-type: reactive
+  redis:
+    host: xxx.xxx.xxx.xxx
+    port: 6379
+    database: 0
+    password: xxx
+  cloud:
+    gateway:
+      enabled: true
+      discovery:
+        locator:
+          enabled: true # 开启动态路由 开启通过应用名称 找到服务的功能
+          lower-case-service-id: true # 开启服务名称自动小写
+
+quanta:
+  # 自定义gateway配置
+  gateway:
+    # ip过滤器配置
+    ip:
+      filter:
+        # ip拦截黑名单
+        black-list:
+          enable: true
+          ip-list:
+            - 127.0.0.2
+        # ip拦截白名单
+        white-list:
+          enable: true
+          ip-list:
+            - 127.0.0.1
+            - localhost
+    route:
+      # 路径拦截白名单
+      white-list:
+        - /wx/fallback
+        - /app-auth/oauth/**
+        - /*/swagger**/**
+        - /*/swagger-resources/**
+        - /*/webjars/**
+        - /*/doc.html
+        - /*/v3/**
+        - /*/v3/api-docs
+      # 路径拦截黑名单
+      black-list:
+        - /feishu/fallback

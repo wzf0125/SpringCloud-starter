@@ -1,0 +1,6 @@
+dependencies {
+    api project(':common')
+    api project(':core:starter-jwt')
+    api project(':core:starter-redis')
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+}

@@ -1,0 +1,14 @@
+dependencies {
+    api 'cn.hutool:hutool-all'
+    api project(':core:starter-web')
+    api project(':core:starter-log')
+    api project(':core:starter-auth')
+    api project(':core:starter-tool')
+    api project(':core:starter-feign')
+
+    api 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    api 'com.alibaba.nacos:nacos-client'
+    api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+}

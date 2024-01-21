@@ -1,0 +1,8 @@
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+#quanta:
+#  exception:
+#    white:
+#      - org.springframework.security.authentication.InsufficientAuthenticationException

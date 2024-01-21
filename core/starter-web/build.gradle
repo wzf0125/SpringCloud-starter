@@ -1,0 +1,4 @@
+dependencies {
+    api project(':core:starter-base')
+    api 'org.springframework.boot:spring-boot-starter-validation'
+}

@@ -1,0 +1,5 @@
+dependencies {
+    api project(':core:starter-base')
+    api project(':core:starter-tool')
+    api 'org.springframework.cloud:spring-cloud-starter-openfeign'
+}

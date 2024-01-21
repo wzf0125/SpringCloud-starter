@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.quanta.user.mapper.RolePermissionMapper">
+
+    <resultMap id="BaseResultMap" type="org.quanta.user.entity.RolePermission">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="is_deleted" column="is_deleted" jdbcType="TINYINT"/>
+            <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="role_id" column="role_id" jdbcType="INTEGER"/>
+            <result property="permission_id" column="permission_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,is_deleted,create_time,
+        update_time,role_id,permission_id
+    </sql>
+    <select id="getPermissionByRoleIdList" resultType="org.quanta.user.entity.Permission">
+        SELECT p.* FROM role_permission AS rp
+        INNER JOIN permission AS p ON rp.permission_id = p.id
+        <where>
+            <if test="roleIdList != null">
+            rp.role_id IN
+                <foreach collection="roleIdList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

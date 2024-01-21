@@ -1,0 +1,11 @@
+dependencies {
+    api project(':common')
+    api project(':core:starter-jwt')
+    api project(':core:starter-web')
+    api project(':core:starter-mybatis')
+    api project(':core:starter-redis')
+    api project(':system-api:user-api')
+    api 'org.springframework.boot:spring-boot-starter-security'
+
+    implementation project(':ext:starter-swagger')
+}

@@ -1,0 +1,33 @@
+server:
+  port: 8001
+quanta:
+  system:
+    debug: true
+  web: # web配置
+    resource-handlers:
+      - handler-paths:
+          - /doc.html
+        resource-locations:
+          - classpath:/META-INF/resources/
+      - handler-paths:
+          - /webjars/**
+        resource-locations:
+          - classpath:/META-INF/resources/webjars/
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://xxx.xxx.xxx:3306/user?&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: quanta_user
+    password: 5TmeRAmPYbbdzO2X
+  redis:
+    host: xxx.xxx.xxx
+    port: 6379
+    database: 0
+    password: 1F0ClFY5xxo8duVB
