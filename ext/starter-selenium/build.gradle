@@ -1,0 +1,5 @@
+dependencies {
+    api project(':core:starter-base')
+    api 'org.seleniumhq.selenium:selenium-java'
+    api 'org.seleniumhq.selenium:selenium-http-jdk-client'
+}
