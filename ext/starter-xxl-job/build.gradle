@@ -1,0 +1,4 @@
+dependencies {
+    api project(':core:starter-base')
+    api 'com.xuxueli:xxl-job-core'
+}

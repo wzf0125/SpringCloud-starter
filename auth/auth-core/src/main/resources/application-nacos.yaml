@@ -24,10 +24,10 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://xxx.xxx.xxx:3306/user?&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-    username: quanta_user
-    password: 5TmeRAmPYbbdzO2X
+    username:
+    password:
   redis:
     host: xxx.xxx.xxx
     port: 6379
     database: 0
-    password: 1F0ClFY5xxo8duVB
+    password:

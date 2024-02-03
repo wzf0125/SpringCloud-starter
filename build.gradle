@@ -114,6 +114,13 @@ allprojects {
             dependency 'com.sun.xml.bind:jaxb-impl:2.3.0'
             dependency 'com.sun.xml.bind:jaxb-core:2.3.0'
             dependency 'javax.activation:activation:1.1.1'
+
+            // selenium
+            dependency 'org.seleniumhq.selenium:selenium-java:4.17.0'
+            dependency 'org.seleniumhq.selenium:selenium-http-jdk-client:4.13.0'
+
+            // xxl-job
+            dependency 'com.xuxueli:xxl-job-core:2.4.0'
         }
     }
 }
