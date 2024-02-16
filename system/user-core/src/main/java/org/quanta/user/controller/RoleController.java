@@ -7,6 +7,7 @@ import org.quanta.common.controller.BaseController;
 import org.quanta.core.annotation.ApiPermission;
 import org.quanta.core.beans.Response;
 import org.quanta.core.constant.cache.RoleCache;
+import org.quanta.core.constant.cache.UserCache;
 import org.quanta.user.dto.AddRoleDTO;
 import org.quanta.user.dto.BatchDeleteDTO;
 import org.quanta.user.dto.EditRoleDTO;
@@ -19,6 +20,7 @@ import org.quanta.user.vo.PermissionVO;
 import org.quanta.user.vo.RoleVO;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -93,7 +95,7 @@ public class RoleController extends BaseController implements IRoleClient {
     @Override
     @ApiOperation(value = "获取角色权限列表")
     @ApiPermission({":user:role:get"})
-    @Cacheable(value = RoleCache.SYSTEM_USER_ROLE_LIST, key = RoleCache.SYSTEM_USER_ROLE_LIST)
+    @Cacheable(value = RoleCache.SYSTEM_USER_ROLE_PERMISSION, key = "#roleId")
     public Response<List<PermissionVO>> getRolePermission(@PathVariable Integer roleId) {
         return Response.success(roleService.getRolePermissionById(roleId));
     }
@@ -101,7 +103,12 @@ public class RoleController extends BaseController implements IRoleClient {
     @Override
     @ApiOperation(value = "编辑角色权限")
     @ApiPermission({":user:role:get"})
-    @CacheEvict(value = {RoleCache.SYSTEM_USER_ROLE_LIST, RoleCache.SYSTEM_USER_ROLE_TREE})
+    @Caching(evict = {
+            @CacheEvict(value = RoleCache.SYSTEM_USER_ROLE_PERMISSION, key = "#dto.roleId"),
+            @CacheEvict(value = UserCache.SYSTEM_USER_USER_PERMISSION_LIST, allEntries = true),
+            @CacheEvict(value = UserCache.SYSTEM_USER_USER_BY_EMAIL, allEntries = true),
+            @CacheEvict(value = UserCache.SYSTEM_USER_USER_BY_ACCOUNT, allEntries = true)
+    })
     public <T> Response<T> editRolePermission(@Validated @RequestBody EditRolePermissionDTO dto) {
         rolePermissionService.editRolePermission(dto);
         return Response.success();
