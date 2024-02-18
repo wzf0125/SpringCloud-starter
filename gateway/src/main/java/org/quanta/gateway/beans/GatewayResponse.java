@@ -27,28 +27,28 @@ public class GatewayResponse {
 
     public static Map<String, Object> unAuth() {
         return MapUtil.<String, Object>builder()
-                .put("code", ResultCode.PERMISSION_DENIED)
+                .put("code", ResultCode.PERMISSION_DENIED.getCode())
                 .put("msg", "unAuth")
                 .build();
     }
 
     public static Map<String, Object> unAuth(String msg) {
         return MapUtil.<String, Object>builder()
-                .put("code", ResultCode.PERMISSION_DENIED)
+                .put("code", ResultCode.PERMISSION_DENIED.getCode())
                 .put("msg", msg)
                 .build();
     }
 
     public static Map<String, Object> blocked() {
         return MapUtil.<String, Object>builder()
-                .put("code", ResultCode.PERMISSION_DENIED)
+                .put("code", ResultCode.PERMISSION_DENIED.getCode())
                 .put("msg", "blocked")
                 .build();
     }
 
     public static Map<String, Object> blocked(String msg) {
         return MapUtil.<String, Object>builder()
-                .put("code", ResultCode.PERMISSION_DENIED)
+                .put("code", ResultCode.PERMISSION_DENIED.getCode())
                 .put("msg", msg)
                 .build();
     }

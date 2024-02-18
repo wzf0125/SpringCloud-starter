@@ -24,4 +24,6 @@ public interface JWTKeyConstants {
     String JTI = "jti";
     String EXP = "exp";
     String AUTHORITIES = "authorities";
+
+    String CLIENT_ID = "client_id";
 }

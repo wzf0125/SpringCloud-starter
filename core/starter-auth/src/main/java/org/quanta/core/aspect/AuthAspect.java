@@ -89,8 +89,9 @@ public class AuthAspect {
         if (claims == null) {
             throw new PermissionException("授权过期");
         }
+        // 放行客户端模式jwt
         if (!claims.containsKey(JWTKeyConstants.PERMISSION_LIST)) {
-            throw new PermissionException("非法访问");
+            return ListUtil.toList(AuthConstants.SKIP_CLIENT);
         }
         return StrUtil.split((String) claims.get(JWTKeyConstants.PERMISSION_LIST), ',');
     }

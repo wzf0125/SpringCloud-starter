@@ -14,4 +14,6 @@ public interface AuthConstants {
     String AUTH_PREFIX = "Basic ";
     // 跳过JWT认证拦截(用于类上有拦截注解 但是方法想要放行的情况)
     String SKIP_AUTH = "skip_auth";
+    // 客户单放行
+    String SKIP_CLIENT = "skip_client";
 }

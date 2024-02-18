@@ -1,5 +1,6 @@
 package org.quanta.auth.entity;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,8 +32,7 @@ public class SystemUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<String> permisstionList = user.getUserPermissionList().stream().map(Permission::getPath).collect(Collectors.toList());
-        return AuthorityUtils.commaSeparatedStringToAuthorityList(StrUtil.join(",", permisstionList));
+        return ListUtil.empty();
     }
 
     @Override

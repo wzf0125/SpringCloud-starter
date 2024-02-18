@@ -8,6 +8,7 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.quanta.base.constants.AuthConstants;
 import org.quanta.core.constant.cache.TokenCache;
+import org.quanta.core.constants.JWTConstants;
 import org.quanta.core.constants.JWTKeyConstants;
 import org.quanta.core.utils.JWTUtils;
 import org.quanta.core.utils.RedisUtils;
@@ -35,6 +36,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
     private final GatewayRouteConfig gatewayRouteConfig;
     private final JWTUtils jwtUtils;
     private final RedisUtils redisUtils;
+    private final JWTConstants jwtConstants;
 
     /**
      * /app-auth/oauth/token
@@ -65,8 +67,21 @@ public class AuthFilter implements GlobalFilter, Ordered {
         if (StrUtil.isBlank(jwt)) {
             return GatewayResponse.blocked(exchange.getResponse(), "请求未认证");
         }
-        // 判断用户数据是否存在 存在则放行
-        if (!isExists(jwt)) {
+        // 放行客户端模式jwt
+        Claims claims = jwtUtils.parseJWT(jwt);
+        if (!claims.containsKey(JWTKeyConstants.PERMISSION_LIST)) {
+            return chain.filter(exchange);
+        }
+
+        // 判断用户数据是否存在 存在则放行(有状态才检测)
+        if (jwtConstants.getIsJwtStateful() && isExists(jwt)) {
+            return GatewayResponse.blocked(exchange.getResponse(), "认证过期");
+        }
+
+        // token黑名单处理
+        if (handelTokenLock(jwt)) {
+            // 清除jwt绑定
+            redisUtils.del(String.format(TokenCache.SYSTEM_ACCESS_TOKEN_USER, jwt));
             return GatewayResponse.blocked(exchange.getResponse(), "认证过期");
         }
 
